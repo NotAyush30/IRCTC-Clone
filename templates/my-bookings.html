@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}My Bookings{% endblock %}
+
+{% block content %}
+
+<h2>MY BOOKINGS</h2>
+
+<div class="table-box">
+    {% if bookings %}
+    <table>
+        <tr>
+            <th>PNR</th>
+            <th>Train Number</th>
+            <th>Train Name</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Date</th>
+            <th>Class</th>
+            <th>Seats</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b.pnr_number }}</td>
+            <td>{{ b.train_number }}</td>
+            <td>{{ b.train_name }}</td>
+            <td>{{ b.source_station }}</td>
+            <td>{{ b.destination_station }}</td>
+            <td>{{ b.journey_date.strftime('%d-%m-%Y') }}</td>
+            <td>{{ b.class_name|upper }}</td>
+            <td>{{ b.seat_count }}</td>
+            <td><b>{{ b.booking_status }}</b></td>
+            <td>
+                {% if b.booking_status == 'Confirmed' %}
+                <a href="{{ url_for('cancellation', pnr=b.pnr_number) }}">Cancel</a>
+                {% else %}-{% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>You have no bookings yet.
+       <a href="{{ url_for('book_ticket') }}">Book a ticket</a></p>
+    {% endif %}
+</div>
+
+{% endblock %}

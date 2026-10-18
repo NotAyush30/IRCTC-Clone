@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Available Trains{% endblock %}
+
+{% block extra_style %}
+<style>
+    .info { font-size: 18px; margin: -10px 0 25px; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h2>AVAILABLE TRAINS</h2>
+<p class="info">Journey date: {{ date }} &nbsp;|&nbsp; Passengers: {{ passengers }}</p>
+
+<div class="table-box">
+    {% if trains %}
+    <table>
+        <tr>
+            <th>Train No.</th>
+            <th>Train Name</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Class</th>
+            <th>Fare (per seat)</th>
+            <th>Seats Left</th>
+            <th>Book</th>
+        </tr>
+        {% for t in trains %}
+        <tr>
+            <td>{{ t.train_number }}</td>
+            <td>{{ t.train_name }}</td>
+            <td>{{ t.source_station }}</td>
+            <td>{{ t.destination_station }}</td>
+            <td>{{ t.departure_time }}</td>
+            <td>{{ t.arrival_time }}</td>
+            <td>{{ t.class_name|upper }}</td>
+            <td>&#8377;{{ t.fare }}</td>
+            <td>{{ t.available_seats }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('book') }}">
+                    <input type="hidden" name="train_class_id" value="{{ t.train_class_id }}">
+                    <input type="hidden" name="date" value="{{ date }}">
+                    <input type="hidden" name="passengers" value="{{ passengers }}">
+                    <button type="submit" class="btn btn-small">Book</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+    <p>No trains found for this route, class and number of passengers.</p>
+    <p><a href="{{ url_for('book_ticket') }}">Search again</a></p>
+    {% endif %}
+</div>
+
+{% endblock %}

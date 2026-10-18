@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home{% endblock %} - Railway Reservation System</title>
+
+    <style>
+        /* ===== Shared styles: every page gets these ===== */
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: "Times New Roman", serif;
+            color: black;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header and navigation */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            border-bottom: 3px solid gray;
+        }
+        .header h1 { margin: 0; font-size: 40px; }
+        .nav a { margin-left: 25px; font-size: 18px; }
+
+        /* Flash messages */
+        .flash {
+            text-align: center;
+            color: #8a0000;
+            background: #fff3f3;
+            border: 1px solid #d99;
+            padding: 10px;
+            margin: 15px auto;
+            width: 80%;
+            font-size: 17px;
+        }
+
+        /* Page area (grows so the footer stays at the bottom) */
+        .page { flex: 1; padding: 45px 20px; text-align: center; }
+        .page.center { display: flex; align-items: center; justify-content: center; }
+        .page h2 { font-size: 32px; margin: 0 0 30px; }
+
+        /* Bordered box used for forms. Add box-narrow / box-wide / box-xl to change the width. */
+        .box {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            border: 2px solid black;
+            padding: 35px;
+            text-align: left;
+        }
+        .box-narrow { max-width: 400px; }
+        .box-wide   { max-width: 550px; }
+        .box-xl     { max-width: 750px; }
+        .box h2 { text-align: center; }
+
+        /* Form fields */
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; }
+        input, select, textarea {
+            width: 100%;
+            padding: 11px;
+            font-size: 16px;
+            font-family: inherit;
+            border: 1px solid gray;
+            border-radius: 3px;
+        }
+        textarea { height: 100px; resize: none; }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 17px;
+            font-family: inherit;
+            border: 1px solid black;
+            background: white;
+            cursor: pointer;
+        }
+        .btn:hover { background: black; color: white; }
+        .btn-small { width: auto; padding: 8px 18px; font-size: 15px; }
+
+        /* Text under forms */
+        .hint { text-align: center; margin: 0 0 25px; word-break: break-all; }
+        .link-right { text-align: right; margin: 12px 0 0; }
+        .link-center { text-align: center; margin: 25px 0 0; }
+
+        /* Tables (My Bookings, Search Results, PNR Status) */
+        .table-box {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+            border: 2px solid black;
+            padding: 25px;
+            overflow-x: auto;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid black; padding: 14px; text-align: center; font-size: 16px; }
+        th { background: #eeeeee; font-size: 17px; }
+
+        /* Footer */
+        .footer {
+            border-top: 3px solid black;
+            text-align: center;
+            padding: 30px;
+            font-size: 15px;
+        }
+
+        @media (max-width: 700px) {
+            .header h1 { font-size: 28px; }
+            .nav a { margin: 0 15px 0 0; }
+        }
+    </style>
+
+    {# Each page can add its own extra CSS here #}
+    {% block extra_style %}{% endblock %}
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>RAILWAY RESERVATION SYSTEM</h1>
+
+        <div class="nav">
+            {% if session.user_id %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('book_ticket') }}">Book Tickets</a>
+            <a href="{{ url_for('my_bookings') }}">My Bookings</a>
+            <a href="{{ url_for('cancellation') }}">Cancellation</a>
+            <a href="{{ url_for('pnr_status') }}">PNR Status</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('pnr_status') }}">PNR Status</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            {% endif %}
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash">
+        {% for m in messages %}<div>{{ m }}</div>{% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <main class="page {% block page_class %}{% endblock %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    <div class="footer">
+        © 2026 Railway Reservation System | All Rights Reserved
+    </div>
+
+</body>
+</html>

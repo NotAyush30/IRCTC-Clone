@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Book Tickets{% endblock %}
+
+{% block content %}
+
+<h2>BOOK TICKETS</h2>
+
+<div class="box box-wide">
+
+    <form method="POST" action="{{ url_for('search_trains') }}">
+
+        <div class="form-group">
+            <label for="from">From</label>
+            <select id="from" name="from" required>
+                <option value="">Select Departure Station</option>
+                {% for s in stations %}
+                <option value="{{ s.station_id }}">{{ s.station_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="to">To</label>
+            <select id="to" name="to" required>
+                <option value="">Select Destination Station</option>
+                {% for s in stations %}
+                <option value="{{ s.station_id }}">{{ s.station_name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Journey Date</label>
+            <input type="date" id="date" name="date" min="{{ today }}" max="{{ max_date }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="class">Class</label>
+            <select id="class" name="class" required>
+                <option value="">Select Class</option>
+                <option value="sleeper">Sleeper</option>
+                <option value="3ac">AC 3 Tier</option>
+                <option value="2ac">AC 2 Tier</option>
+                <option value="1ac">AC First Class</option>
+                <option value="chair-car">Chair Car</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="passengers">Number of Passengers</label>
+            <input type="number" id="passengers" name="passengers" min="1" max="10"
+                   placeholder="Enter number of passengers" required>
+        </div>
+
+        <button type="submit" class="btn">Search Trains</button>
+
+    </form>
+
+</div>
+
+{% endblock %}

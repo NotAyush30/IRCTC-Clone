@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}PNR Status{% endblock %}
+
+{% block extra_style %}
+<style>
+    /* Ticket details table under the search box */
+    .result {
+        width: 100%;
+        max-width: 700px;
+        margin: 30px auto 0;
+        border: 2px solid black;
+        padding: 20px;
+        text-align: left;
+    }
+    .result td { text-align: left; padding: 10px; }
+    .result td:first-child { font-weight: bold; background: #eeeeee; width: 35%; }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h2>CHECK PNR STATUS</h2>
+
+<div class="box">
+
+    <form method="POST" action="{{ url_for('pnr_status') }}">
+
+        <div class="form-group">
+            <label for="pnr">Enter PNR Number</label>
+            <input type="text" id="pnr" name="pnr" placeholder="Enter 10 digit PNR number"
+                   maxlength="10" required>
+        </div>
+
+        <button type="submit" class="btn">Check Status</button>
+
+    </form>
+
+</div>
+
+{% if ticket %}
+<div class="result">
+    <table>
+        <tr><td>PNR</td><td>{{ ticket.pnr_number }}</td></tr>
+        <tr><td>Train</td><td>{{ ticket.train_number }} - {{ ticket.train_name }}</td></tr>
+        <tr><td>From &rarr; To</td><td>{{ ticket.source_station }} &rarr; {{ ticket.destination_station }}</td></tr>
+        <tr><td>Departure / Arrival</td><td>{{ ticket.departure_time }} / {{ ticket.arrival_time }}</td></tr>
+        <tr><td>Journey Date</td><td>{{ ticket.journey_date.strftime('%d-%m-%Y') }}</td></tr>
+        <tr><td>Class</td><td>{{ ticket.class_name|upper }}</td></tr>
+        <tr><td>Seats</td><td>{{ ticket.seat_count }}</td></tr>
+        <tr><td>Fare (per seat)</td><td>&#8377;{{ ticket.fare }}</td></tr>
+        <tr><td>Status</td><td><b>{{ ticket.booking_status }}</b></td></tr>
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}

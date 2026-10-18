@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Cancellation{% endblock %}
+
+{% block content %}
+
+<h2>REQUEST CANCELLATION</h2>
+
+<div class="box">
+
+    <form method="POST" action="{{ url_for('cancellation') }}">
+
+        <div class="form-group">
+            <label for="pnr">PNR Number</label>
+            <input type="text" id="pnr" name="pnr" value="{{ request.args.get('pnr', '') }}"
+                   placeholder="Enter your PNR number" maxlength="15" required>
+        </div>
+
+        <div class="form-group">
+            <label for="reason">Reason for Cancellation</label>
+            <textarea id="reason" name="reason" maxlength="255"
+                      placeholder="Enter reason for cancellation"></textarea>
+        </div>
+
+        <button type="submit" class="btn">Submit Cancellation Request</button>
+
+    </form>
+
+</div>
+
+{% endblock %}
