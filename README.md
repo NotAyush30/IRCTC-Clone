@@ -34,32 +34,6 @@ Six tables, created by `schema.sql`:
 Seats left are not stored. They are calculated as the class's total seats
 minus the confirmed bookings for that date.
 
-## Setup
-
-1. Install Python packages:
-
-   ```
-   pip install -r requirements.txt
-   ```
-
-2. Create the database, tables and sample data (this also creates the
-   `IRCTC` database):
-
-   ```
-   mysql -u root -p < schema.sql
-   ```
-
-3. Copy `.env.example` to `.env` and fill in `SECRET_KEY`, `DB_USER` and
-   `DB_PASSWORD`.
-
-4. Run the app:
-
-   ```
-   python app.py
-   ```
-
-   Then open http://127.0.0.1:5000 in your browser.
-
 ## Project structure
 
 ```
