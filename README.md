@@ -40,8 +40,6 @@ minus the confirmed bookings for that date.
 app.py              Flask routes and database code
 schema.sql          Tables and sample data
 requirements.txt    Python packages
-.env.example        Template for your .env settings
 templates/
     base.html       Shared header, navigation, styles and footer
-    (one file per page, each extends base.html)
 ```
